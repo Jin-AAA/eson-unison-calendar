@@ -698,6 +698,19 @@ function getDevicePlatform() {
   return 'Unknown';
 }
 
+function isMobileDevice() {
+  const ua = navigator.userAgent || '';
+  return /iPhone|iPad|iPod|Android/i.test(ua);
+}
+
+function isInstalledWebApp() {
+  return (
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.matchMedia('(display-mode: fullscreen)').matches ||
+    window.navigator.standalone === true
+  );
+}
+
 async function saveFcmToken(token) {
   const db = initFirestore();
   if (!db) throw new Error('Firestore is not initialized.');
@@ -734,6 +747,12 @@ async function saveFcmToken(token) {
 
 async function enableNotifications() {
   const isSecureContextForPush = window.isSecureContext || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+  if (isMobileDevice() && !isInstalledWebApp()) {
+    alert(i18n[currentLang].notificationUnavailable);
+    return;
+  }
+
   if (!isSecureContextForPush || !('Notification' in window) || !('serviceWorker' in navigator)) {
     console.warn('Push prerequisites failed:', {
       isSecureContext: window.isSecureContext,
