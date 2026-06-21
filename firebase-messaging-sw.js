@@ -1,9 +1,8 @@
 /* ESON × UNISON Calendar Firebase Messaging Service Worker
-   v12: keep the service worker valid even when Firebase Messaging is unsupported,
-   so the page can show a precise error instead of failing registration. */
+   v13: use Firebase 8 classic service worker SDK for broader compatibility on GitHub Pages. */
 
-importScripts('https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/10.12.5/firebase-messaging-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js');
 
 firebase.initializeApp({
   apiKey: 'AIzaSyB-zKGQ4NNNnRh-BMep97o66iSR7juKVoY',
