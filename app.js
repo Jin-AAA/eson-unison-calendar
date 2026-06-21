@@ -161,21 +161,23 @@ const calendarPanel = document.querySelector('.calendar-panel');
 
 const fallbackColors = {
   blue: { background: 'rgba(43,114,255,.12)', border: 'rgba(43,114,255,.74)' },
+  skyblue: { background: '#d8edfc', border: '#0ba7f0' },
   orange: { background: 'rgba(255,155,69,.14)', border: 'rgba(255,155,69,.78)' },
+  orangered: { background: '#ffebea', border: '#fc5043'},
   pink: { background: 'rgba(255,122,182,.13)', border: 'rgba(255,122,182,.78)' },
   mint: { background: 'rgba(119,216,189,.15)', border: 'rgba(119,216,189,.78)' },
   gray: { background: 'rgba(104,112,130,.10)', border: 'rgba(104,112,130,.52)' }
 };
 
 const categoryFallbackColor = {
-  live: fallbackColors.blue,
-  birthday: fallbackColors.pink,
+  live: fallbackColors.skyblue,
+  birthday: fallbackColors.orange,
   anniversary: fallbackColors.pink,
   fan: { background: 'rgba(150,126,255,.13)', border: 'rgba(150,126,255,.70)' },
-  notice: fallbackColors.orange,
+  notice: fallbackColors.blue,
   schedule: fallbackColors.mint,
   travel: fallbackColors.mint,
-  release: fallbackColors.blue
+  release: fallbackColors.orangered
 };
 
 function pad(num) { return String(num).padStart(2, '0'); }

@@ -83,7 +83,8 @@ h1 {
   font-size: clamp(36px, 4.1vw, 42px);
   line-height: 1.08;
   letter-spacing: -0.035em;
-  font-weight: 700;
+  font-family: "Chelsea Market", system-ui;
+  font-weight: 400;
 }
 
 .hero-desc {
@@ -358,7 +359,7 @@ button {
   border-radius: 10px;
   color: var(--ink);
   background: rgba(43,114,255,.075);
-  border-left: 4px solid rgba(43,114,255,.72);
+  /*border-left: 4px solid rgba(43,114,255,.72);*/
   font-size: 12px;
   font-weight: 500;
   text-align: left;
