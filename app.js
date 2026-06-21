@@ -513,10 +513,15 @@ window.addEventListener('beforeinstallprompt', (event) => {
   deferredInstallPrompt = event;
 });
 
+
 async function registerServiceWorker() {
-  if (!('serviceWorker' in navigator)) return null;
+  if (!('serviceWorker' in navigator)) {
+    console.warn('Service Worker is not supported in this browser.');
+    return null;
+  }
   try {
-    swRegistration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
+    swRegistration = await navigator.serviceWorker.register('./firebase-messaging-sw.js', { scope: './' });
+    console.log('Service Worker registered:', swRegistration.scope);
     return swRegistration;
   } catch (error) {
     console.error('Service worker registration failed:', error);
@@ -524,11 +529,28 @@ async function registerServiceWorker() {
   }
 }
 
-function initFirebaseMessaging() {
-  if (!window.firebase || !firebase?.messaging?.isSupported?.()) return;
+async function initFirebaseMessaging() {
+  if (!window.firebase || !firebase.messaging) {
+    console.warn('Firebase Messaging SDK is not loaded.');
+    messaging = null;
+    return;
+  }
+
   try {
+    let supported = true;
+    if (typeof firebase.messaging.isSupported === 'function') {
+      supported = await firebase.messaging.isSupported();
+    }
+
+    if (!supported) {
+      console.warn('Firebase Messaging is not supported in this browser/context.');
+      messaging = null;
+      return;
+    }
+
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     messaging = firebase.messaging();
+
     messaging.onMessage((payload) => {
       const title = payload.notification?.title || 'ESON × UNISON Calendar';
       const body = payload.notification?.body || '';
@@ -541,13 +563,38 @@ function initFirebaseMessaging() {
         });
       }
     });
+
+    console.log('Firebase Messaging initialized.');
   } catch (error) {
     console.error('Firebase Messaging init failed:', error);
+    messaging = null;
   }
 }
 
 async function enableNotifications() {
-  if (!('Notification' in window) || !messaging) {
+  const isSecureContextForPush = window.isSecureContext || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  if (!isSecureContextForPush || !('Notification' in window) || !('serviceWorker' in navigator)) {
+    console.warn('Push prerequisites failed:', {
+      isSecureContext: window.isSecureContext,
+      hasNotification: 'Notification' in window,
+      hasServiceWorker: 'serviceWorker' in navigator,
+      location: location.href
+    });
+    alert(i18n[currentLang].notificationUnavailable);
+    return;
+  }
+
+  const registration = swRegistration || await registerServiceWorker();
+  if (!registration) {
+    alert(i18n[currentLang].notificationUnavailable);
+    return;
+  }
+
+  if (!messaging) {
+    await initFirebaseMessaging();
+  }
+
+  if (!messaging) {
     alert(i18n[currentLang].notificationUnavailable);
     return;
   }
@@ -555,12 +602,6 @@ async function enableNotifications() {
   const permission = await Notification.requestPermission();
   if (permission !== 'granted') {
     alert(i18n[currentLang].notificationDenied);
-    return;
-  }
-
-  const registration = swRegistration || await registerServiceWorker();
-  if (!registration) {
-    alert(i18n[currentLang].notificationUnavailable);
     return;
   }
 
