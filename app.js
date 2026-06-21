@@ -20,6 +20,7 @@ const i18n = {
     allDay: '整天',
     followEson: 'follow ESON',
     uncategorized: '未分類',
+    openLink: '開啟連結',
     tags: {
       live: '直播', birthday: '紀念日', anniversary: '紀念日', fan: '粉絲活動', notice: '公告', schedule: '行程', release: '發行', travel: '行程'
     }
@@ -42,6 +43,7 @@ const i18n = {
     allDay: '종일',
     followEson: 'follow ESON',
     uncategorized: '미분류',
+    openLink: '링크 열기',
     tags: {
       live: '라이브', birthday: '기념일', anniversary: '기념일', fan: '팬 이벤트', notice: '공지', schedule: '스케줄', release: '발매', travel: '스케줄'
     }
@@ -64,6 +66,7 @@ const i18n = {
     allDay: 'All day',
     followEson: 'follow ESON',
     uncategorized: 'Uncategorized',
+    openLink: 'Open Link',
     tags: {
       live: 'Live', birthday: 'Anniversary', anniversary: 'Anniversary', fan: 'Fan event', notice: 'Notice', schedule: 'Schedule', release: 'Release', travel: 'Schedule'
     }
@@ -86,6 +89,7 @@ const i18n = {
     allDay: '終日',
     followEson: 'follow ESON',
     uncategorized: '未分類',
+    openLink: 'リンクを開く',
     tags: {
       live: 'ライブ', birthday: '記念日', anniversary: '記念日', fan: 'ファンイベント', notice: 'お知らせ', schedule: 'スケジュール', release: 'リリース', travel: 'スケジュール'
     }
@@ -151,16 +155,35 @@ function renderDescriptionHtml(description = '') {
   const plain = String(description).trim();
   if (!plain) return '—';
 
-  const escaped = escapeHtml(plain);
-  const linked = escaped.replace(/((?:https?:\/\/|www\.)[^\s<]+)/g, (match) => {
+  const urlRegex = /((?:https?:\/\/|www\.)[^\s<]+)/g;
+  const links = [];
+  let body = plain.replace(urlRegex, (match) => {
     const trailingMatch = match.match(/[.,!?，。；;：:)）】]+$/);
     const trailing = trailingMatch ? trailingMatch[0] : '';
     const urlText = trailing ? match.slice(0, -trailing.length) : match;
     const href = urlText.startsWith('www.') ? `https://${urlText}` : urlText;
-    return `<a href="${href}" target="_blank" rel="noopener noreferrer">${urlText}</a>${trailing}`;
-  });
+    links.push({ href, text: urlText });
+    return trailing;
+  }).replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
 
-  return linked.replace(/\n/g, '<br>');
+  const bodyHtml = body
+    ? `<div class="modal-desc-text">${escapeHtml(body).replace(/\n/g, '<br>')}</div>`
+    : '';
+
+  const uniqueLinks = links.filter((link, index, array) =>
+    array.findIndex(item => item.href === link.href) === index
+  );
+
+  const linkHtml = uniqueLinks.length
+    ? `<div class="modal-link-list">${uniqueLinks.map((link, index) => `
+        <a class="modal-link-btn" href="${escapeHtml(link.href)}" target="_blank" rel="noopener noreferrer">
+          <span class="material-symbols-rounded" aria-hidden="true">open_in_new</span>
+          ${escapeHtml(i18n[currentLang].openLink)}${uniqueLinks.length > 1 ? ` ${index + 1}` : ''}
+        </a>
+      `).join('')}</div>`
+    : '';
+
+  return bodyHtml || linkHtml ? `${bodyHtml}${linkHtml}` : '—';
 }
 function startOfCalendarGrid(date) {
   const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -176,19 +199,31 @@ function endOfCalendarGrid(date) {
   return end;
 }
 
+function getDescriptionLines(description = '') {
+  return stripHtml(description)
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.length > 0);
+}
+
 function extractCategory(description = '') {
-  const plain = stripHtml(description);
-  const match = plain.match(/^\s*CATEGORY\s*:\s*([a-zA-Z0-9_-]+)\s*$/im);
+  const lines = getDescriptionLines(description);
+  const categoryLine = lines.find(line => /^CATEGORY\s*:/i.test(line));
+  if (!categoryLine) return '';
+  const match = categoryLine.match(/^CATEGORY\s*:\s*([a-zA-Z0-9_-]+)/i);
   return match ? match[1].toLowerCase() : '';
 }
 
 function cleanDescription(description = '') {
-  const plain = stripHtml(description)
-    .replace(/^\s*CATEGORY\s*:\s*[a-zA-Z0-9_-]+\s*$/gim, '')
-    .replace(/\n[ \t]+/g, '\n')
+  const lines = stripHtml(description).split('\n');
+  const cleaned = lines
+    .map(line => line.trim())
+    .filter(line => !/^CATEGORY\s*:/i.test(line))
+    .join('\n')
+    .replace(/[ \t]+\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
-  return plain;
+  return cleaned;
 }
 
 function normalizeGoogleEvent(item) {
