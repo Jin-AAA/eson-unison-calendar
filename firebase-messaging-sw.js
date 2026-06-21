@@ -1,6 +1,3 @@
-/* ESON × UNISON Calendar Firebase Messaging Service Worker
-   v16 */
-
 importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js');
 
@@ -15,7 +12,21 @@ firebase.initializeApp({
 });
 
 try {
-  firebase.messaging();
+  const messaging = firebase.messaging();
+
+  messaging.onBackgroundMessage(function(payload) {
+    const title = payload.data?.title || 'ESON × UNISON Calendar';
+    const options = {
+      body: payload.data?.body || '',
+      icon: './icons/icon-192.png',
+      badge: './icons/icon-192.png',
+      data: {
+        url: payload.data?.url || './'
+      }
+    };
+
+    self.registration.showNotification(title, options);
+  });
 } catch (error) {
   console.error('[SW] Firebase Messaging init failed:', error);
 }
