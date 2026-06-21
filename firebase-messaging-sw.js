@@ -1,5 +1,5 @@
 /* ESON × UNISON Calendar Firebase Messaging Service Worker
-   v13: use Firebase 8 classic service worker SDK for broader compatibility on GitHub Pages. */
+   v14: use Firebase 8 classic service worker SDK for broader compatibility on GitHub Pages. */
 
 importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js');

@@ -31,7 +31,7 @@ const i18n = {
     monthFormat: (date) => `${date.getFullYear()}年 ${date.getMonth() + 1}月`,
     installHint: '目前瀏覽器沒有提供安裝提示。請用瀏覽器選單加入主畫面。',
     enableNotifications: '允許通知',
-    notificationEnabled: '通知已啟用。這台裝置的 FCM token 已產生，下一階段會接到後端排程推播。',
+    notificationEnabled: '通知已啟用。這台裝置的 FCM token 已儲存，下一階段會接到後端排程推播。',
     notificationDenied: '通知權限被拒絕，請到瀏覽器或手機設定中重新允許通知。',
     notificationUnavailable: '這個瀏覽器目前不支援網頁推播通知，或需要先使用 HTTPS / 加入主畫面。',
     installReady: '可以安裝到主畫面了',
@@ -59,7 +59,7 @@ const i18n = {
     monthFormat: (date) => `${date.getFullYear()}년 ${date.getMonth() + 1}월`,
     installHint: '현재 브라우저에서 설치 안내를 제공하지 않습니다. 브라우저 메뉴에서 홈 화면에 추가해 주세요.',
     enableNotifications: '알림 허용',
-    notificationEnabled: '알림이 활성화되었습니다. 이 기기의 FCM token이 생성되었고, 다음 단계에서 예약 푸시와 연결합니다.',
+    notificationEnabled: '알림이 활성화되었습니다. 이 기기의 FCM token이 저장되었고, 다음 단계에서 예약 푸시와 연결합니다.',
     notificationDenied: '알림 권한이 거부되었습니다. 브라우저 또는 휴대폰 설정에서 다시 허용해 주세요.',
     notificationUnavailable: '이 브라우저는 웹 푸시를 지원하지 않거나 HTTPS / 홈 화면 추가가 필요합니다.',
     installReady: '홈 화면에 설치할 수 있습니다',
@@ -87,7 +87,7 @@ const i18n = {
     monthFormat: (date) => date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
     installHint: 'Your browser is not showing an install prompt yet. Use the browser menu to add this page to your home screen.',
     enableNotifications: 'Allow notifications',
-    notificationEnabled: 'Notifications are enabled. This device FCM token has been created; scheduled push delivery will be connected in the next phase.',
+    notificationEnabled: 'Notifications are enabled. This device FCM token has been saved; scheduled push delivery will be connected in the next phase.',
     notificationDenied: 'Notification permission was denied. Please allow it again from your browser or device settings.',
     notificationUnavailable: 'Web push is not supported here, or this page needs HTTPS / Home Screen installation first.',
     installReady: 'Ready to install',
@@ -115,7 +115,7 @@ const i18n = {
     monthFormat: (date) => `${date.getFullYear()}年 ${date.getMonth() + 1}月`,
     installHint: '現在ブラウザのインストール案内が表示されていません。ブラウザメニューからホーム画面に追加してください。',
     enableNotifications: '通知を許可',
-    notificationEnabled: '通知が有効になりました。この端末の FCM token が作成されました。次の段階で予約プッシュと接続します。',
+    notificationEnabled: '通知が有効になりました。この端末の FCM token が保存されました。次の段階で予約プッシュと接続します。',
     notificationDenied: '通知権限が拒否されました。ブラウザまたは端末設定から再度許可してください。',
     notificationUnavailable: 'このブラウザでは Web Push が未対応、または HTTPS / ホーム画面追加が必要です。',
     installReady: 'ホーム画面に追加できます',
@@ -520,13 +520,32 @@ async function registerServiceWorker() {
     return null;
   }
   try {
-    swRegistration = await navigator.serviceWorker.register('./firebase-messaging-sw.js?v=13', { scope: './' });
+    swRegistration = await navigator.serviceWorker.register('./firebase-messaging-sw.js?v=14', { scope: './' });
     console.log('Service Worker registered:', swRegistration.scope);
     return swRegistration;
   } catch (error) {
     console.error('Service worker registration failed:', error);
     return null;
   }
+}
+
+function ensureFirebaseApp() {
+  if (!window.firebase) {
+    console.warn('Firebase SDK is not loaded.');
+    return false;
+  }
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  return true;
+}
+
+function initFirestore() {
+  if (!ensureFirebaseApp() || !firebase.firestore) {
+    console.warn('Firebase Firestore SDK is not loaded.');
+    firestoreDb = null;
+    return null;
+  }
+  if (!firestoreDb) firestoreDb = firebase.firestore();
+  return firestoreDb;
 }
 
 async function initFirebaseMessaging() {
@@ -548,7 +567,8 @@ async function initFirebaseMessaging() {
       return;
     }
 
-    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    if (!ensureFirebaseApp()) return;
+    initFirestore();
     messaging = firebase.messaging();
 
     messaging.onMessage((payload) => {
@@ -569,6 +589,58 @@ async function initFirebaseMessaging() {
     console.error('Firebase Messaging init failed:', error);
     messaging = null;
   }
+}
+
+async function sha256Hex(text) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hashBuffer))
+    .map(byte => byte.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+function getDevicePlatform() {
+  const ua = navigator.userAgent || '';
+  if (/iPhone|iPad|iPod/i.test(ua)) return 'iOS / iPadOS';
+  if (/Android/i.test(ua)) return 'Android';
+  if (/Macintosh|Mac OS X/i.test(ua)) return 'macOS';
+  if (/Windows/i.test(ua)) return 'Windows';
+  return 'Unknown';
+}
+
+async function saveFcmToken(token) {
+  const db = initFirestore();
+  if (!db) throw new Error('Firestore is not initialized.');
+
+  const tokenHash = await sha256Hex(token);
+  const ref = db.collection('tokens').doc(tokenHash);
+  const now = firebase.firestore.FieldValue.serverTimestamp();
+  const existingToken = localStorage.getItem('esonUnisonFcmToken');
+
+  await ref.set({
+    token,
+    tokenHash,
+    project: 'ESON × UNISON Calendar',
+    platform: getDevicePlatform(),
+    userAgent: navigator.userAgent || '',
+    language: currentLang,
+    browserLanguage: navigator.language || '',
+    timezone: userTimeZone,
+    pageUrl: location.href,
+    permission: Notification.permission,
+    enabled: true,
+    createdAt: existingToken === token ? firebase.firestore.FieldValue.delete() : now,
+    updatedAt: now
+  }, { merge: true });
+
+  // Ensure createdAt exists for existing devices that registered before v14.
+  const snap = await ref.get();
+  if (!snap.exists || !snap.data().createdAt) {
+    await ref.set({ createdAt: now }, { merge: true });
+  }
+
+  return tokenHash;
 }
 
 async function enableNotifications() {
@@ -611,8 +683,9 @@ async function enableNotifications() {
       serviceWorkerRegistration: registration
     });
     if (!token) throw new Error('No FCM token returned');
+    await saveFcmToken(token);
     localStorage.setItem('esonUnisonFcmToken', token);
-    console.log('FCM token:', token);
+    console.log('FCM token saved:', token);
     alert(i18n[currentLang].notificationEnabled);
   } catch (error) {
     console.error('FCM token error:', error);
