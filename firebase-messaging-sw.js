@@ -15,13 +15,20 @@ try {
   const messaging = firebase.messaging();
 
   messaging.onBackgroundMessage(function(payload) {
-    const title = payload.data?.title || 'ESON × UNISON Calendar';
+    const data = payload.data || {};
+    const title = String(data.title || 'ESON × UNISON Calendar');
+    const body = String(data.body || '推播測試成功 🎉');
+
     const options = {
-      body: payload.data?.body || '',
+      body,
       icon: './icons/icon-192.png',
       badge: './icons/icon-192.png',
+      tag: data.tag || 'eson-unison-calendar',
+      renotify: true,
+      requireInteraction: false,
+      timestamp: Date.now(),
       data: {
-        url: payload.data?.url || './'
+        url: data.url || './'
       }
     };
 
