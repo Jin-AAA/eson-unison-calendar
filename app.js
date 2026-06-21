@@ -627,7 +627,7 @@ async function saveFcmToken(token) {
     userAgent: navigator.userAgent || '',
     language: currentLang,
     browserLanguage: navigator.language || '',
-    timezone: userTimeZone,
+    timezone: getUserTimeZone(),
     pageUrl: location.href,
     permission: Notification.permission,
     enabled: true,
