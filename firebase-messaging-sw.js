@@ -1,3 +1,6 @@
+/* ESON × UNISON Calendar Firebase Messaging Service Worker
+   v17 */
+
 importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js');
 

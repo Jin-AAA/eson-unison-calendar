@@ -31,8 +31,7 @@
           <button class="lang-btn" data-lang="ja">日本語</button>
         </div>
         <div class="action-row">
-          <button class="ghost-btn" id="installBtn" data-i18n="install">加入主畫面</button>
-          <button class="ghost-btn" id="notifyBtn" data-i18n="enableNotifications">允許通知</button>
+          <button class="ghost-btn" id="notifyBtn" data-i18n="enableNotifications">接收通知</button>
           <button class="icon-btn" id="refreshBtn" aria-label="Refresh" title="Refresh">
             <span class="material-symbols-rounded" aria-hidden="true">autorenew</span>
           </button>
@@ -49,24 +48,25 @@
         <span data-i18n="timezoneLabel">偵測時區</span>
         <strong id="timezoneText">—</strong>
       </article>
-      <article class="mini-card">
-        <span data-i18n="noticeLabel">提醒模式</span>
-        <strong data-i18n="noticeMode">設計預覽中</strong>
-      </article>
     </section>
 
     <section class="calendar-panel">
       <header class="calendar-header">
         <button class="circle-btn" id="prevMonth" aria-label="Previous month"><span class="material-symbols-rounded" aria-hidden="true">chevron_left</span></button>
-        <div>
+        <div class="calendar-title-block">
           <p class="section-kicker" data-i18n="calendarKicker">Calendar</p>
           <h2 id="monthTitle">—</h2>
+          <div class="calendar-tools">
+            <button class="mini-action-btn" id="todayBtn" type="button" data-i18n="todayButton">回到今天</button>
+            <button class="mini-action-btn" id="viewToggleBtn" type="button" data-i18n="listMode">列表模式</button>
+          </div>
         </div>
         <button class="circle-btn" id="nextMonth" aria-label="Next month"><span class="material-symbols-rounded" aria-hidden="true">chevron_right</span></button>
       </header>
 
       <div class="weekday-grid" id="weekdayGrid"></div>
       <div class="calendar-grid" id="calendarGrid"></div>
+      <div class="event-list-view" id="eventListView" hidden></div>
     </section>
 
     <footer class="site-footer">

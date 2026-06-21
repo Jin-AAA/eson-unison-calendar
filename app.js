@@ -18,25 +18,27 @@ let firestoreDb = null;
 
 const i18n = {
   zh: {
-    install: '加入主畫面',
+    install: '',
     refresh: '重新整理',
     todayLabel: '今天',
     timezoneLabel: '偵測時區',
-    noticeLabel: '提醒模式',
-    noticeMode: '正式版會依照 Google Calendar 的提醒設定，在事件前自動發送推播通知。',
-    loadingEvents: '正在同步 Google Calendar 事件…',
+        loadingEvents: '正在同步 Google Calendar 事件…',
     loadError: 'Google Calendar 事件讀取失敗，請確認日曆公開權限與 API Key。',
     noEvents: '這個月份目前沒有公開事件。',
     calendarKicker: 'Calendar',
+    todayButton: '回到今天',
+    listMode: '列表模式',
+    calendarMode: '月曆模式',
+    listEmpty: '這個月份目前沒有事件。',
     weekdays: ['日', '一', '二', '三', '四', '五', '六'],
     monthFormat: (date) => `${date.getFullYear()}年 ${date.getMonth() + 1}月`,
     installHint: '目前瀏覽器沒有提供安裝提示。請用瀏覽器選單加入主畫面。',
-    enableNotifications: '允許通知',
-    notificationEnabled: '通知已啟用。這台裝置的 FCM token 已儲存，下一階段會接到後端排程推播。',
+    enableNotifications: '接收通知',
+    notificationEnabled: '通知設定成功',
     notificationDenied: '通知權限被拒絕，請到瀏覽器或手機設定中重新允許通知。',
-    notificationUnavailable: '這個瀏覽器目前不支援網頁推播通知，或需要先使用 HTTPS / 加入主畫面。',
+    notificationUnavailable: '請先將網頁加入主畫面後即可接收通知。',
     installReady: '可以安裝到主畫面了',
-    refreshDone: '已重新同步 Google Calendar 事件',
+    refreshDone: '已同步最新行程',
     allDay: '整天',
     followEson: 'follow ESON',
     uncategorized: '未分類',
@@ -50,19 +52,21 @@ const i18n = {
     refresh: '새로고침',
     todayLabel: '오늘',
     timezoneLabel: '감지된 시간대',
-    noticeLabel: '알림 모드',
-    noticeMode: '정식 버전에서는 Google Calendar 알림 설정에 맞춰 푸시 알림을 보냅니다.',
-    loadingEvents: 'Google Calendar 일정을 동기화하는 중…',
+        loadingEvents: 'Google Calendar 일정을 동기화하는 중…',
     loadError: 'Google Calendar 일정을 불러오지 못했습니다. 공개 설정과 API Key를 확인해 주세요.',
     noEvents: '이 달에는 공개 일정이 없습니다.',
     calendarKicker: 'Calendar',
+    todayButton: '오늘로 이동',
+    listMode: '리스트 보기',
+    calendarMode: '달력 보기',
+    listEmpty: '이 달에는 일정이 없습니다.',
     weekdays: ['일', '월', '화', '수', '목', '금', '토'],
     monthFormat: (date) => `${date.getFullYear()}년 ${date.getMonth() + 1}월`,
     installHint: '현재 브라우저에서 설치 안내를 제공하지 않습니다. 브라우저 메뉴에서 홈 화면에 추가해 주세요.',
-    enableNotifications: '알림 허용',
-    notificationEnabled: '알림이 활성화되었습니다. 이 기기의 FCM token이 저장되었고, 다음 단계에서 예약 푸시와 연결합니다.',
+    enableNotifications: '알림 받기',
+    notificationEnabled: '알림 설정이 완료되었습니다.',
     notificationDenied: '알림 권한이 거부되었습니다. 브라우저 또는 휴대폰 설정에서 다시 허용해 주세요.',
-    notificationUnavailable: '이 브라우저는 웹 푸시를 지원하지 않거나 HTTPS / 홈 화면 추가가 필요합니다.',
+    notificationUnavailable: '먼저 이 웹페이지를 홈 화면에 추가한 뒤 알림을 받을 수 있습니다.',
     installReady: '홈 화면에 설치할 수 있습니다',
     refreshDone: 'Google Calendar 일정을 다시 동기화했어요',
     allDay: '종일',
@@ -78,19 +82,21 @@ const i18n = {
     refresh: 'Refresh',
     todayLabel: 'Today',
     timezoneLabel: 'Detected timezone',
-    noticeLabel: 'Notification mode',
-    noticeMode: 'Push notifications will follow each Google Calendar reminder setting.',
-    loadingEvents: 'Syncing Google Calendar events…',
+        loadingEvents: 'Syncing Google Calendar events…',
     loadError: 'Failed to load Google Calendar events. Please check calendar sharing and API key settings.',
     noEvents: 'No public events for this month yet.',
     calendarKicker: 'Calendar',
+    todayButton: 'Today',
+    listMode: 'List view',
+    calendarMode: 'Calendar view',
+    listEmpty: 'No events for this month.',
     weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     monthFormat: (date) => date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
     installHint: 'Your browser is not showing an install prompt yet. Use the browser menu to add this page to your home screen.',
-    enableNotifications: 'Allow notifications',
-    notificationEnabled: 'Notifications are enabled. This device FCM token has been saved; scheduled push delivery will be connected in the next phase.',
+    enableNotifications: 'Receive notifications',
+    notificationEnabled: 'Notification settings saved.',
     notificationDenied: 'Notification permission was denied. Please allow it again from your browser or device settings.',
-    notificationUnavailable: 'Web push is not supported here, or this page needs HTTPS / Home Screen installation first.',
+    notificationUnavailable: 'Please add this page to your Home Screen first, then you can receive notifications.',
     installReady: 'Ready to install',
     refreshDone: 'Google Calendar events synced',
     allDay: 'All day',
@@ -106,19 +112,21 @@ const i18n = {
     refresh: '更新',
     todayLabel: '今日',
     timezoneLabel: '検出されたタイムゾーン',
-    noticeLabel: '通知モード',
-    noticeMode: 'Google Calendar のリマインダー設定に合わせてプッシュ通知を送信します。',
-    loadingEvents: 'Google Calendar の予定を同期中…',
+        loadingEvents: 'Google Calendar の予定を同期中…',
     loadError: 'Google Calendar の予定を読み込めませんでした。公開設定と API Key を確認してください。',
     noEvents: 'この月には公開予定がありません。',
     calendarKicker: 'Calendar',
+    todayButton: '今日に戻る',
+    listMode: 'リスト表示',
+    calendarMode: 'カレンダー表示',
+    listEmpty: 'この月には予定がありません。',
     weekdays: ['日', '月', '火', '水', '木', '金', '土'],
     monthFormat: (date) => `${date.getFullYear()}年 ${date.getMonth() + 1}月`,
     installHint: '現在ブラウザのインストール案内が表示されていません。ブラウザメニューからホーム画面に追加してください。',
-    enableNotifications: '通知を許可',
-    notificationEnabled: '通知が有効になりました。この端末の FCM token が保存されました。次の段階で予約プッシュと接続します。',
+    enableNotifications: '通知を受け取る',
+    notificationEnabled: '通知設定が完了しました。',
     notificationDenied: '通知権限が拒否されました。ブラウザまたは端末設定から再度許可してください。',
-    notificationUnavailable: 'このブラウザでは Web Push が未対応、または HTTPS / ホーム画面追加が必要です。',
+    notificationUnavailable: '先にこのページをホーム画面に追加すると通知を受け取れます。',
     installReady: 'ホーム画面に追加できます',
     refreshDone: 'Google Calendar の予定を再同期しました',
     allDay: '終日',
@@ -139,6 +147,7 @@ let googleColors = null;
 let isLoading = false;
 let loadError = '';
 let lastLoadedRange = '';
+let currentViewMode = 'calendar';
 
 const calendarGrid = document.getElementById('calendarGrid');
 const weekdayGrid = document.getElementById('weekdayGrid');
@@ -146,6 +155,9 @@ const monthTitle = document.getElementById('monthTitle');
 const todayText = document.getElementById('todayText');
 const timezoneText = document.getElementById('timezoneText');
 const modal = document.getElementById('eventModal');
+const eventListView = document.getElementById('eventListView');
+const viewToggleBtn = document.getElementById('viewToggleBtn');
+const calendarPanel = document.querySelector('.calendar-panel');
 
 const fallbackColors = {
   blue: { background: 'rgba(43,114,255,.12)', border: 'rgba(43,114,255,.74)' },
@@ -254,6 +266,7 @@ function cleanDescription(description = '') {
   const cleaned = lines
     .map(line => line.trim())
     .filter(line => !/^CATEGORY\s*:/i.test(line))
+    .filter(line => !/^PUSH\s*:/i.test(line))
     .join('\n')
     .replace(/[ \t]+\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
@@ -340,6 +353,7 @@ function applyLanguage() {
   renderWeekdays();
   renderCalendar();
   renderMeta();
+  updateViewModeUi();
 }
 
 function renderMeta() {
@@ -352,6 +366,66 @@ function renderWeekdays() {
   weekdayGrid.innerHTML = i18n[currentLang].weekdays
     .map(day => `<div class="weekday">${day}</div>`)
     .join('');
+}
+
+
+function eventOverlapsMonth(event, year, month) {
+  const monthStart = new Date(year, month, 1);
+  const monthEnd = new Date(year, month + 1, 0, 23, 59, 59, 999);
+  const start = new Date(event.start);
+  const end = event.end ? new Date(event.end) : new Date(event.start);
+  if (event.isAllDay && event.end) end.setDate(end.getDate() - 1);
+  return start <= monthEnd && end >= monthStart;
+}
+
+function getVisibleMonthEvents() {
+  const year = viewDate.getFullYear();
+  const month = viewDate.getMonth();
+  return calendarEvents
+    .filter(event => eventOverlapsMonth(event, year, month))
+    .sort((a, b) => a.start - b.start);
+}
+
+function updateViewModeUi() {
+  if (!eventListView || !viewToggleBtn) return;
+  const isList = currentViewMode === 'list';
+  weekdayGrid.hidden = isList;
+  calendarGrid.hidden = isList;
+  eventListView.hidden = !isList;
+  calendarPanel?.classList.toggle('list-mode', isList);
+  document.body.classList.toggle('is-list-view', isList);
+  viewToggleBtn.textContent = isList ? i18n[currentLang].calendarMode : i18n[currentLang].listMode;
+}
+
+function renderEventListView() {
+  if (!eventListView) return;
+  const locale = getLocale();
+  const events = getVisibleMonthEvents();
+
+  if (events.length === 0) {
+    eventListView.innerHTML = `<p class="list-empty">${escapeHtml(i18n[currentLang].listEmpty)}</p>`;
+    return;
+  }
+
+  eventListView.innerHTML = events.map(event => {
+    const dateText = event.start.toLocaleDateString(locale, { month: 'long', day: 'numeric', weekday: 'short' });
+    const tagLabel = event.category ? (i18n[currentLang].tags[event.category] || event.category) : i18n[currentLang].uncategorized;
+    return `
+      <button class="event-list-card" data-event-id="${escapeHtml(event.id)}" type="button">
+        <span class="event-list-date">${escapeHtml(dateText)}</span>
+        <span class="event-list-title">${escapeHtml(event.title)}</span>
+        <span class="event-list-meta">${escapeHtml(formatEventTime(event))}</span>
+        <span class="event-list-tag" style="${eventStyle(event)}">${escapeHtml(tagLabel)}</span>
+      </button>
+    `;
+  }).join('');
+
+  eventListView.querySelectorAll('.event-list-card').forEach(button => {
+    button.addEventListener('click', () => {
+      const eventData = calendarEvents.find(item => item.id === button.dataset.eventId);
+      if (eventData) openEvent(eventData);
+    });
+  });
 }
 
 function renderCalendar() {
@@ -394,6 +468,8 @@ function renderCalendar() {
     });
   });
 
+  renderEventListView();
+  updateViewModeUi();
   renderCalendarStatus();
 }
 
@@ -419,7 +495,7 @@ function renderCalendarStatus() {
   const status = document.createElement('p');
   status.className = `calendar-status ${type}`;
   status.textContent = message;
-  calendarGrid.after(status);
+  (currentViewMode === 'list' ? eventListView : calendarGrid).after(status);
 }
 
 function openEvent(eventData) {
@@ -493,6 +569,16 @@ document.getElementById('nextMonth').addEventListener('click', async () => {
   await loadEvents();
 });
 
+document.getElementById('todayBtn').addEventListener('click', async () => {
+  viewDate = new Date(today.getFullYear(), today.getMonth(), 1);
+  await loadEvents();
+});
+
+viewToggleBtn.addEventListener('click', () => {
+  currentViewMode = currentViewMode === 'list' ? 'calendar' : 'list';
+  renderCalendar();
+});
+
 document.getElementById('closeModal').addEventListener('click', () => modal.close());
 
 document.querySelectorAll('.lang-btn').forEach(button => {
@@ -521,7 +607,7 @@ async function registerServiceWorker() {
     return null;
   }
   try {
-    swRegistration = await navigator.serviceWorker.register('./firebase-messaging-sw.js?v=15', { scope: './' });
+    swRegistration = await navigator.serviceWorker.register('./firebase-messaging-sw.js?v=18', { scope: './' });
     console.log('Service Worker registered:', swRegistration.scope);
     return swRegistration;
   } catch (error) {
@@ -693,16 +779,6 @@ async function enableNotifications() {
     alert(i18n[currentLang].notificationUnavailable);
   }
 }
-
-document.getElementById('installBtn').addEventListener('click', async () => {
-  if (deferredInstallPrompt) {
-    deferredInstallPrompt.prompt();
-    await deferredInstallPrompt.userChoice;
-    deferredInstallPrompt = null;
-    return;
-  }
-  alert(i18n[currentLang].installHint);
-});
 
 document.getElementById('notifyBtn').addEventListener('click', enableNotifications);
 
