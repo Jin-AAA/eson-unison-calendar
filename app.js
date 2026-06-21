@@ -139,7 +139,33 @@ const i18n = {
   }
 };
 
-let currentLang = 'zh';
+
+function detectInitialLanguage() {
+  const timeZone = getUserTimeZone();
+  const timezoneLanguageMap = {
+    'Asia/Taipei': 'zh',
+    'Asia/Shanghai': 'zh',
+    'Asia/Chongqing': 'zh',
+    'Asia/Harbin': 'zh',
+    'Asia/Urumqi': 'zh',
+    'Asia/Seoul': 'ko',
+    'Asia/Tokyo': 'ja'
+  };
+
+  if (timezoneLanguageMap[timeZone]) return timezoneLanguageMap[timeZone];
+
+  const languages = navigator.languages && navigator.languages.length
+    ? navigator.languages
+    : [navigator.language || ''];
+
+  const normalized = languages.map(lang => String(lang).toLowerCase());
+  if (normalized.some(lang => lang === 'zh-tw' || lang === 'zh-hant' || lang === 'zh-cn' || lang === 'zh-hans' || lang.startsWith('zh-'))) return 'zh';
+  if (normalized.some(lang => lang === 'ko' || lang.startsWith('ko-'))) return 'ko';
+  if (normalized.some(lang => lang === 'ja' || lang.startsWith('ja-'))) return 'ja';
+  return 'en';
+}
+
+let currentLang = detectInitialLanguage();
 let viewDate = new Date();
 const today = new Date();
 let calendarEvents = [];
@@ -348,6 +374,7 @@ function formatEventTime(event) {
 
 function applyLanguage() {
   document.documentElement.lang = currentLang === 'zh' ? 'zh-Hant' : currentLang;
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === currentLang));
   document.querySelectorAll('[data-i18n]').forEach((node) => {
     const key = node.dataset.i18n;
     node.textContent = i18n[currentLang][key] || node.textContent;
@@ -586,7 +613,6 @@ document.getElementById('closeModal').addEventListener('click', () => modal.clos
 document.querySelectorAll('.lang-btn').forEach(button => {
   button.addEventListener('click', () => {
     currentLang = button.dataset.lang;
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn === button));
     applyLanguage();
   });
 });
