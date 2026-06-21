@@ -44,7 +44,7 @@ const i18n = {
     uncategorized: '未分類',
     openLink: '開啟連結',
     tags: {
-      live: '直播', birthday: '紀念日', anniversary: '紀念日', fan: '粉絲活動', notice: '公告', schedule: '行程', release: '發行', travel: '行程'
+      live: '直播', birthday: '生日', anniversary: '紀念日', fan: '粉絲活動', notice: '公告', schedule: '行程', release: '發行', travel: '行程'
     }
   },
   ko: {
@@ -74,7 +74,7 @@ const i18n = {
     uncategorized: '미분류',
     openLink: '링크 열기',
     tags: {
-      live: '라이브', birthday: '기념일', anniversary: '기념일', fan: '팬 이벤트', notice: '공지', schedule: '스케줄', release: '발매', travel: '스케줄'
+      live: '라이브', birthday: '생일', anniversary: '기념일', fan: '팬 이벤트', notice: '공지', schedule: '스케줄', release: '발매', travel: '스케줄'
     }
   },
   en: {
@@ -104,7 +104,7 @@ const i18n = {
     uncategorized: 'Uncategorized',
     openLink: 'Open Link',
     tags: {
-      live: 'Live', birthday: 'Anniversary', anniversary: 'Anniversary', fan: 'Fan event', notice: 'Notice', schedule: 'Schedule', release: 'Release', travel: 'Schedule'
+      live: 'Live', birthday: 'Birthday', anniversary: 'Anniversary', fan: 'Fan event', notice: 'Notice', schedule: 'Schedule', release: 'Release', travel: 'Schedule'
     }
   },
   ja: {
@@ -134,7 +134,7 @@ const i18n = {
     uncategorized: '未分類',
     openLink: 'リンクを開く',
     tags: {
-      live: 'ライブ', birthday: '記念日', anniversary: '記念日', fan: 'ファンイベント', notice: 'お知らせ', schedule: 'スケジュール', release: 'リリース', travel: 'スケジュール'
+      live: 'ライブ', birthday: '誕生日', anniversary: '記念日', fan: 'ファンイベント', notice: 'お知らせ', schedule: 'スケジュール', release: 'リリース', travel: 'スケジュール'
     }
   }
 };
