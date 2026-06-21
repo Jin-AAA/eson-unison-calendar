@@ -14,6 +14,7 @@ const FIREBASE_VAPID_KEY = 'BNw9it2f72zhRwIbAJOpFtkqRJskjUBY8UlquoCbOR7b-jzfAU4Z
 let deferredInstallPrompt = null;
 let swRegistration = null;
 let messaging = null;
+let firestoreDb = null;
 
 const i18n = {
   zh: {
@@ -520,7 +521,7 @@ async function registerServiceWorker() {
     return null;
   }
   try {
-    swRegistration = await navigator.serviceWorker.register('./firebase-messaging-sw.js?v=14', { scope: './' });
+    swRegistration = await navigator.serviceWorker.register('./firebase-messaging-sw.js?v=15', { scope: './' });
     console.log('Service Worker registered:', swRegistration.scope);
     return swRegistration;
   } catch (error) {
