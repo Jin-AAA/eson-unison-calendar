@@ -1,5 +1,5 @@
 /* ESON × UNISON Calendar Firebase Messaging Service Worker
-   v14: use Firebase 8 classic service worker SDK for broader compatibility on GitHub Pages. */
+   v16 */
 
 importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js');
@@ -15,28 +15,13 @@ firebase.initializeApp({
 });
 
 try {
-  const messaging = firebase.messaging();
-
-  messaging.onBackgroundMessage(function(payload) {
-    const notificationTitle = payload && payload.notification && payload.notification.title
-      ? payload.notification.title
-      : 'ESON × UNISON Calendar';
-    const notificationOptions = {
-      body: payload && payload.notification && payload.notification.body ? payload.notification.body : '',
-      icon: './icons/icon-192.png',
-      badge: './icons/icon-192.png',
-      data: payload && payload.data ? payload.data : {}
-    };
-    self.registration.showNotification(notificationTitle, notificationOptions);
-  });
+  firebase.messaging();
 } catch (error) {
   console.error('[SW] Firebase Messaging init failed:', error);
 }
 
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();
-  const targetUrl = event.notification && event.notification.data && event.notification.data.url
-    ? event.notification.data.url
-    : './';
+  const targetUrl = event.notification?.data?.url || './';
   event.waitUntil(clients.openWindow(targetUrl));
 });
