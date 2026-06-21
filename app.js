@@ -1,6 +1,20 @@
 const GOOGLE_API_KEY = 'AIzaSyB2IyH68acpouxGzSXHt-HjymBhTiH5WGk';
 const GOOGLE_CALENDAR_ID = '4ba0e8a1b31f1a821edc4aec49773111113ca7a0ab1080b4923500db0e382534@group.calendar.google.com';
 
+const firebaseConfig = {
+  apiKey: 'AIzaSyB-zKGQ4NNNnRh-BMep97o66iSR7juKVoY',
+  authDomain: 'eson-unison-calendar-cd2f9.firebaseapp.com',
+  projectId: 'eson-unison-calendar-cd2f9',
+  storageBucket: 'eson-unison-calendar-cd2f9.firebasestorage.app',
+  messagingSenderId: '672800291334',
+  appId: '1:672800291334:web:818338c46b659531bfe187',
+  measurementId: 'G-XDER4CP7WP'
+};
+const FIREBASE_VAPID_KEY = 'BNw9it2f72zhRwIbAJOpFtkqRJskjUBY8UlquoCbOR7b-jzfAU4ZwA6smGH2F273gHgj6DG1H5MCw5zve3V7kuM';
+let deferredInstallPrompt = null;
+let swRegistration = null;
+let messaging = null;
+
 const i18n = {
   zh: {
     install: '加入主畫面',
@@ -15,7 +29,12 @@ const i18n = {
     calendarKicker: 'Calendar',
     weekdays: ['日', '一', '二', '三', '四', '五', '六'],
     monthFormat: (date) => `${date.getFullYear()}年 ${date.getMonth() + 1}月`,
-    installHint: '目前先保留加入主畫面按鈕。下一階段會啟用 PWA 安裝與推播通知。',
+    installHint: '目前瀏覽器沒有提供安裝提示。請用瀏覽器選單加入主畫面。',
+    enableNotifications: '允許通知',
+    notificationEnabled: '通知已啟用。這台裝置的 FCM token 已產生，下一階段會接到後端排程推播。',
+    notificationDenied: '通知權限被拒絕，請到瀏覽器或手機設定中重新允許通知。',
+    notificationUnavailable: '這個瀏覽器目前不支援網頁推播通知，或需要先使用 HTTPS / 加入主畫面。',
+    installReady: '可以安裝到主畫面了',
     refreshDone: '已重新同步 Google Calendar 事件',
     allDay: '整天',
     followEson: 'follow ESON',
@@ -38,7 +57,12 @@ const i18n = {
     calendarKicker: 'Calendar',
     weekdays: ['일', '월', '화', '수', '목', '금', '토'],
     monthFormat: (date) => `${date.getFullYear()}년 ${date.getMonth() + 1}월`,
-    installHint: '현재는 홈 화면 추가 버튼만 남겨두었습니다. 다음 단계에서 PWA 설치와 푸시 알림을 연결합니다.',
+    installHint: '현재 브라우저에서 설치 안내를 제공하지 않습니다. 브라우저 메뉴에서 홈 화면에 추가해 주세요.',
+    enableNotifications: '알림 허용',
+    notificationEnabled: '알림이 활성화되었습니다. 이 기기의 FCM token이 생성되었고, 다음 단계에서 예약 푸시와 연결합니다.',
+    notificationDenied: '알림 권한이 거부되었습니다. 브라우저 또는 휴대폰 설정에서 다시 허용해 주세요.',
+    notificationUnavailable: '이 브라우저는 웹 푸시를 지원하지 않거나 HTTPS / 홈 화면 추가가 필요합니다.',
+    installReady: '홈 화면에 설치할 수 있습니다',
     refreshDone: 'Google Calendar 일정을 다시 동기화했어요',
     allDay: '종일',
     followEson: 'follow ESON',
@@ -61,7 +85,12 @@ const i18n = {
     calendarKicker: 'Calendar',
     weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     monthFormat: (date) => date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
-    installHint: 'The Add to Home Screen button is reserved for now. PWA installation and push notifications will be enabled next.',
+    installHint: 'Your browser is not showing an install prompt yet. Use the browser menu to add this page to your home screen.',
+    enableNotifications: 'Allow notifications',
+    notificationEnabled: 'Notifications are enabled. This device FCM token has been created; scheduled push delivery will be connected in the next phase.',
+    notificationDenied: 'Notification permission was denied. Please allow it again from your browser or device settings.',
+    notificationUnavailable: 'Web push is not supported here, or this page needs HTTPS / Home Screen installation first.',
+    installReady: 'Ready to install',
     refreshDone: 'Google Calendar events synced',
     allDay: 'All day',
     followEson: 'follow ESON',
@@ -84,7 +113,12 @@ const i18n = {
     calendarKicker: 'Calendar',
     weekdays: ['日', '月', '火', '水', '木', '金', '土'],
     monthFormat: (date) => `${date.getFullYear()}年 ${date.getMonth() + 1}月`,
-    installHint: '現在はホーム画面追加ボタンのみ残しています。次の段階で PWA インストールとプッシュ通知を有効にします。',
+    installHint: '現在ブラウザのインストール案内が表示されていません。ブラウザメニューからホーム画面に追加してください。',
+    enableNotifications: '通知を許可',
+    notificationEnabled: '通知が有効になりました。この端末の FCM token が作成されました。次の段階で予約プッシュと接続します。',
+    notificationDenied: '通知権限が拒否されました。ブラウザまたは端末設定から再度許可してください。',
+    notificationUnavailable: 'このブラウザでは Web Push が未対応、または HTTPS / ホーム画面追加が必要です。',
+    installReady: 'ホーム画面に追加できます',
     refreshDone: 'Google Calendar の予定を再同期しました',
     allDay: '終日',
     followEson: 'follow ESON',
@@ -473,9 +507,90 @@ document.getElementById('refreshBtn').addEventListener('click', async () => {
   if (!loadError) alert(i18n[currentLang].refreshDone);
 });
 
-document.getElementById('installBtn').addEventListener('click', () => {
+
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+});
+
+async function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return null;
+  try {
+    swRegistration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
+    return swRegistration;
+  } catch (error) {
+    console.error('Service worker registration failed:', error);
+    return null;
+  }
+}
+
+function initFirebaseMessaging() {
+  if (!window.firebase || !firebase?.messaging?.isSupported?.()) return;
+  try {
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    messaging = firebase.messaging();
+    messaging.onMessage((payload) => {
+      const title = payload.notification?.title || 'ESON × UNISON Calendar';
+      const body = payload.notification?.body || '';
+      if (Notification.permission === 'granted') {
+        new Notification(title, {
+          body,
+          icon: './icons/icon-192.png',
+          badge: './icons/icon-192.png',
+          data: payload.data || {}
+        });
+      }
+    });
+  } catch (error) {
+    console.error('Firebase Messaging init failed:', error);
+  }
+}
+
+async function enableNotifications() {
+  if (!('Notification' in window) || !messaging) {
+    alert(i18n[currentLang].notificationUnavailable);
+    return;
+  }
+
+  const permission = await Notification.requestPermission();
+  if (permission !== 'granted') {
+    alert(i18n[currentLang].notificationDenied);
+    return;
+  }
+
+  const registration = swRegistration || await registerServiceWorker();
+  if (!registration) {
+    alert(i18n[currentLang].notificationUnavailable);
+    return;
+  }
+
+  try {
+    const token = await messaging.getToken({
+      vapidKey: FIREBASE_VAPID_KEY,
+      serviceWorkerRegistration: registration
+    });
+    if (!token) throw new Error('No FCM token returned');
+    localStorage.setItem('esonUnisonFcmToken', token);
+    console.log('FCM token:', token);
+    alert(i18n[currentLang].notificationEnabled);
+  } catch (error) {
+    console.error('FCM token error:', error);
+    alert(i18n[currentLang].notificationUnavailable);
+  }
+}
+
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    return;
+  }
   alert(i18n[currentLang].installHint);
 });
 
+document.getElementById('notifyBtn').addEventListener('click', enableNotifications);
+
 applyLanguage();
+registerServiceWorker().then(initFirebaseMessaging);
 loadEvents(true);
