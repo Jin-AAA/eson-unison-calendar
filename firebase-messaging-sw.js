@@ -12,28 +12,7 @@ firebase.initializeApp({
 });
 
 try {
-  const messaging = firebase.messaging();
-
-  messaging.onBackgroundMessage(function(payload) {
-    const data = payload.data || {};
-    const title = String(data.title || 'ESON × UNISON Calendar');
-    const body = String(data.body || '推播測試成功 🎉');
-
-    const options = {
-      body,
-      icon: './icons/icon-192.png',
-      badge: './icons/icon-192.png',
-      tag: data.tag || 'eson-unison-calendar',
-      renotify: true,
-      requireInteraction: false,
-      timestamp: Date.now(),
-      data: {
-        url: data.url || './'
-      }
-    };
-
-    self.registration.showNotification(title, options);
-  });
+  firebase.messaging();
 } catch (error) {
   console.error('[SW] Firebase Messaging init failed:', error);
 }
