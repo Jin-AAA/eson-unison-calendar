@@ -22,8 +22,8 @@ const i18n = {
     refresh: '重新整理',
     todayLabel: '今天',
     timezoneLabel: '偵測時區',
-        loadingEvents: '正在同步 Google Calendar 事件…',
-    loadError: 'Google Calendar 事件讀取失敗，請確認日曆公開權限與 API Key。',
+        loadingEvents: '正在取得最新資料…',
+    loadError: '資料讀取失敗，請稍後再試。',
     noEvents: '這個月份目前沒有公開事件。',
     calendarKicker: 'Calendar',
     todayButton: '回到今天',
@@ -32,13 +32,23 @@ const i18n = {
     listEmpty: '這個月份目前沒有事件。',
     weekdays: ['日', '一', '二', '三', '四', '五', '六'],
     monthFormat: (date) => `${date.getFullYear()}年 ${date.getMonth() + 1}月`,
-    installHint: '目前瀏覽器沒有提供安裝提示。請用瀏覽器選單加入主畫面。',
+    installHint: '請先將網頁加入主畫面後即可接收通知。',
     enableNotifications: '接收通知',
     notificationEnabled: '通知設定成功',
     notificationDenied: '通知權限被拒絕，請到瀏覽器或手機設定中重新允許通知。',
     notificationUnavailable: '請先將網頁加入主畫面後即可接收通知。',
     installReady: '可以安裝到主畫面了',
-    refreshDone: '已同步最新行程',
+    refreshDone: '已取得最新資料',
+    modalOk: '知道了',
+    syncSuccessTitle: '同步完成',
+    syncSuccessMessage: '已取得最新資料。',
+    notificationSuccessTitle: '通知設定成功',
+    notificationSuccessMessage: '未來有新的活動或公告時，將會自動收到通知提醒。',
+    installGuideTitle: '接收通知前需要先安裝 App',
+    installGuideIos: '1. 點擊 Safari 的「分享」\n2. 選擇「加入主畫面」\n3. 從主畫面開啟 App\n4. 再點擊「接收通知」',
+    installGuideAndroid: '1. 點擊 Chrome 選單（⋮）\n2. 選擇「安裝 App」\n3. 從安裝後的 App 開啟\n4. 再點擊「接收通知」\n\n※ 請勿選擇「建立捷徑」',
+    installGuideGeneric: '請先將網頁加入主畫面後，再從主畫面開啟並接收通知。',
+    errorTitle: '發生錯誤',
     allDay: '整天',
     followEson: 'follow ESON',
     uncategorized: '未分類',
@@ -52,8 +62,8 @@ const i18n = {
     refresh: '새로고침',
     todayLabel: '오늘',
     timezoneLabel: '감지된 시간대',
-        loadingEvents: 'Google Calendar 일정을 동기화하는 중…',
-    loadError: 'Google Calendar 일정을 불러오지 못했습니다. 공개 설정과 API Key를 확인해 주세요.',
+        loadingEvents: '최신 데이터를 불러오는 중…',
+    loadError: '데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.',
     noEvents: '이 달에는 공개 일정이 없습니다.',
     calendarKicker: 'Calendar',
     todayButton: '오늘로 이동',
@@ -66,9 +76,19 @@ const i18n = {
     enableNotifications: '알림 받기',
     notificationEnabled: '알림 설정이 완료되었습니다.',
     notificationDenied: '알림 권한이 거부되었습니다. 브라우저 또는 휴대폰 설정에서 다시 허용해 주세요.',
-    notificationUnavailable: '먼저 이 웹페이지를 홈 화면에 추가한 뒤 알림을 받을 수 있습니다.',
+    notificationUnavailable: '알림을 받으려면 먼저 이 페이지를 홈 화면에 추가해 주세요.',
     installReady: '홈 화면에 설치할 수 있습니다',
-    refreshDone: 'Google Calendar 일정을 다시 동기화했어요',
+    refreshDone: '최신 데이터를 불러왔습니다.',
+    modalOk: '확인',
+    syncSuccessTitle: '동기화 완료',
+    syncSuccessMessage: '최신 데이터를 불러왔습니다.',
+    notificationSuccessTitle: '알림 설정 완료',
+    notificationSuccessMessage: '새로운 일정이나 공지가 있으면 자동으로 알림을 받을 수 있습니다.',
+    installGuideTitle: '알림을 받으려면 먼저 앱을 설치해 주세요',
+    installGuideIos: '1. Safari의 공유 버튼을 누르세요\n2. 「홈 화면에 추가」를 선택하세요\n3. 홈 화면에서 App을 다시 여세요\n4. 다시 「알림 받기」를 눌러 주세요',
+    installGuideAndroid: '1. Chrome 메뉴(⋮)를 누르세요\n2. 「앱 설치」를 선택하세요\n3. 설치된 App에서 다시 여세요\n4. 다시 「알림 받기」를 눌러 주세요\n\n※ 「바로가기 추가」가 아닌 「앱 설치」를 선택해 주세요',
+    installGuideGeneric: '알림을 받으려면 먼저 이 페이지를 홈 화면에 추가한 뒤 다시 열어 주세요.',
+    errorTitle: '오류가 발생했습니다',
     allDay: '종일',
     followEson: 'follow ESON',
     uncategorized: '미분류',
@@ -82,8 +102,8 @@ const i18n = {
     refresh: 'Refresh',
     todayLabel: 'Today',
     timezoneLabel: 'Detected timezone',
-        loadingEvents: 'Syncing Google Calendar events…',
-    loadError: 'Failed to load Google Calendar events. Please check calendar sharing and API key settings.',
+        loadingEvents: 'Getting the latest data…',
+    loadError: 'Failed to load data. Please try again later.',
     noEvents: 'No public events for this month yet.',
     calendarKicker: 'Calendar',
     todayButton: 'Today',
@@ -96,9 +116,19 @@ const i18n = {
     enableNotifications: 'Receive notifications',
     notificationEnabled: 'Notification settings saved.',
     notificationDenied: 'Notification permission was denied. Please allow it again from your browser or device settings.',
-    notificationUnavailable: 'Please add this page to your Home Screen first, then you can receive notifications.',
+    notificationUnavailable: 'Please add this page to your Home Screen first to receive notifications.',
     installReady: 'Ready to install',
-    refreshDone: 'Google Calendar events synced',
+    refreshDone: 'Latest data loaded.',
+    modalOk: 'OK',
+    syncSuccessTitle: 'Sync complete',
+    syncSuccessMessage: 'Latest data has been loaded.',
+    notificationSuccessTitle: 'Notifications enabled',
+    notificationSuccessMessage: 'You will receive notifications when new events or notices are available.',
+    installGuideTitle: 'Install the app before receiving notifications',
+    installGuideIos: '1. Tap the Safari Share button\n2. Choose “Add to Home Screen”\n3. Open the app from your Home Screen\n4. Tap “Receive notifications” again',
+    installGuideAndroid: '1. Tap the Chrome menu (⋮)\n2. Choose “Install app”\n3. Open the installed app\n4. Tap “Receive notifications” again\n\n※ Please choose “Install app”, not “Create shortcut”.',
+    installGuideGeneric: 'Please add this page to your Home Screen, then open it from there to receive notifications.',
+    errorTitle: 'Something went wrong',
     allDay: 'All day',
     followEson: 'follow ESON',
     uncategorized: 'Uncategorized',
@@ -112,8 +142,8 @@ const i18n = {
     refresh: '更新',
     todayLabel: '今日',
     timezoneLabel: '検出されたタイムゾーン',
-        loadingEvents: 'Google Calendar の予定を同期中…',
-    loadError: 'Google Calendar の予定を読み込めませんでした。公開設定と API Key を確認してください。',
+        loadingEvents: '最新データを取得中…',
+    loadError: 'データを読み込めませんでした。時間をおいて再度お試しください。',
     noEvents: 'この月には公開予定がありません。',
     calendarKicker: 'Calendar',
     todayButton: '今日に戻る',
@@ -126,9 +156,19 @@ const i18n = {
     enableNotifications: '通知を受け取る',
     notificationEnabled: '通知設定が完了しました。',
     notificationDenied: '通知権限が拒否されました。ブラウザまたは端末設定から再度許可してください。',
-    notificationUnavailable: '先にこのページをホーム画面に追加すると通知を受け取れます。',
+    notificationUnavailable: '通知を受け取るには、先にこのページをホーム画面に追加してください。',
     installReady: 'ホーム画面に追加できます',
-    refreshDone: 'Google Calendar の予定を再同期しました',
+    refreshDone: '最新データを取得しました。',
+    modalOk: 'OK',
+    syncSuccessTitle: '同期完了',
+    syncSuccessMessage: '最新データを取得しました。',
+    notificationSuccessTitle: '通知設定が完了しました',
+    notificationSuccessMessage: '新しい予定やお知らせがあると、自動で通知を受け取れます。',
+    installGuideTitle: '通知を受け取る前に App をインストールしてください',
+    installGuideIos: '1. Safari の共有ボタンをタップ\n2. 「ホーム画面に追加」を選択\n3. ホーム画面から App を開く\n4. もう一度「通知を受け取る」をタップ',
+    installGuideAndroid: '1. Chrome メニュー（⋮）をタップ\n2. 「アプリをインストール」を選択\n3. インストール後の App から開く\n4. もう一度「通知を受け取る」をタップ\n\n※ 「ショートカットを作成」ではなく「アプリをインストール」を選択してください',
+    installGuideGeneric: '通知を受け取るには、先にこのページをホーム画面に追加してから開いてください。',
+    errorTitle: 'エラーが発生しました',
     allDay: '終日',
     followEson: 'follow ESON',
     uncategorized: '未分類',
@@ -181,6 +221,10 @@ const monthTitle = document.getElementById('monthTitle');
 const todayText = document.getElementById('todayText');
 const timezoneText = document.getElementById('timezoneText');
 const modal = document.getElementById('eventModal');
+const appModal = document.getElementById('appModal');
+const appModalTitle = document.getElementById('appModalTitle');
+const appModalMessage = document.getElementById('appModalMessage');
+const appModalOk = document.getElementById('appModalOk');
 const eventListView = document.getElementById('eventListView');
 const viewToggleBtn = document.getElementById('viewToggleBtn');
 const calendarPanel = document.querySelector('.calendar-panel');
@@ -214,6 +258,30 @@ function getUserTimeZone() { return Intl.DateTimeFormat().resolvedOptions().time
 function escapeHtml(value = '') {
   return String(value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
 }
+
+function formatModalMessage(message = '') {
+  return escapeHtml(message).replace(/\n/g, '<br>');
+}
+
+function showAppModal(title, message) {
+  if (!appModal) {
+    window.alert([title, message].filter(Boolean).join('\n\n'));
+    return;
+  }
+  appModalTitle.textContent = title || '';
+  appModalMessage.innerHTML = formatModalMessage(message || '');
+  appModalOk.textContent = i18n[currentLang].modalOk || 'OK';
+  appModal.showModal();
+}
+
+function showInstallGuideModal() {
+  const platform = getDevicePlatform();
+  let message = i18n[currentLang].installGuideGeneric;
+  if (platform === 'iOS / iPadOS') message = i18n[currentLang].installGuideIos;
+  if (platform === 'Android') message = i18n[currentLang].installGuideAndroid;
+  showAppModal(i18n[currentLang].installGuideTitle, message);
+}
+
 function stripHtml(value = '') {
   const normalized = String(value)
     .replace(/<br\s*\/?>/gi, '\n')
@@ -609,6 +677,9 @@ viewToggleBtn.addEventListener('click', () => {
 });
 
 document.getElementById('closeModal').addEventListener('click', () => modal.close());
+if (appModalOk) appModalOk.addEventListener('click', () => appModal.close());
+const appModalClose = document.getElementById('appModalClose');
+if (appModalClose) appModalClose.addEventListener('click', () => appModal.close());
 
 document.querySelectorAll('.lang-btn').forEach(button => {
   button.addEventListener('click', () => {
@@ -619,7 +690,7 @@ document.querySelectorAll('.lang-btn').forEach(button => {
 
 document.getElementById('refreshBtn').addEventListener('click', async () => {
   await loadEvents(true);
-  if (!loadError) alert(i18n[currentLang].refreshDone);
+  if (!loadError) showAppModal(i18n[currentLang].syncSuccessTitle, i18n[currentLang].syncSuccessMessage);
 });
 
 
@@ -775,7 +846,7 @@ async function enableNotifications() {
   const isSecureContextForPush = window.isSecureContext || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
 
   if (isMobileDevice() && !isInstalledWebApp()) {
-    alert(i18n[currentLang].notificationUnavailable);
+    showInstallGuideModal();
     return;
   }
 
@@ -786,13 +857,13 @@ async function enableNotifications() {
       hasServiceWorker: 'serviceWorker' in navigator,
       location: location.href
     });
-    alert(i18n[currentLang].notificationUnavailable);
+    showInstallGuideModal();
     return;
   }
 
   const registration = swRegistration || await registerServiceWorker();
   if (!registration) {
-    alert(i18n[currentLang].notificationUnavailable);
+    showInstallGuideModal();
     return;
   }
 
@@ -801,13 +872,13 @@ async function enableNotifications() {
   }
 
   if (!messaging) {
-    alert(i18n[currentLang].notificationUnavailable);
+    showInstallGuideModal();
     return;
   }
 
   const permission = await Notification.requestPermission();
   if (permission !== 'granted') {
-    alert(i18n[currentLang].notificationDenied);
+    showAppModal(i18n[currentLang].errorTitle, i18n[currentLang].notificationDenied);
     return;
   }
 
@@ -820,10 +891,10 @@ async function enableNotifications() {
     await saveFcmToken(token);
     localStorage.setItem('esonUnisonFcmToken', token);
     console.log('FCM token saved:', token);
-    alert(i18n[currentLang].notificationEnabled);
+    showAppModal(i18n[currentLang].notificationSuccessTitle, i18n[currentLang].notificationSuccessMessage);
   } catch (error) {
     console.error('FCM token error:', error);
-    alert(i18n[currentLang].notificationUnavailable);
+    showInstallGuideModal();
   }
 }
 
