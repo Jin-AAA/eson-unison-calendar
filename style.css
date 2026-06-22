@@ -1000,6 +1000,18 @@ button {
   }
 }
 
+/* v24 desktop calendar height: show at least three events */
+@media (min-width: 621px) {
+  .day-cell {
+    aspect-ratio: auto;
+    min-height: 132px;
+  }
+
+  .event-list {
+    max-height: 88px;
+  }
+}
+
 .app-modal {
   width: min(520px, calc(100% - 32px));
   padding: 34px 34px 28px;
