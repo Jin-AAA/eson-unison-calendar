@@ -25,6 +25,8 @@ const i18n = {
     listEmpty: '這個月份目前沒有事件。',
     weekdays: ['日', '一', '二', '三', '四', '五', '六'],
     monthFormat: (date) => `${date.getFullYear()}年 ${date.getMonth() + 1}月`,
+    monthParts: (date) => ({ month: `${date.getMonth() + 1}月`, year: `${date.getFullYear()}` }),
+    seoulTime: '韓國時間 KST',
     installHint: '請先將網頁加入主畫面後即可接收通知。',
     enableNotifications: '接收通知',
     notificationEnabled: '通知設定成功',
@@ -44,11 +46,16 @@ const i18n = {
     desktopNotificationTitle: '請使用手機設定通知',
     desktopNotificationMessage: '通知功能主要提供手機推播提醒。\n\n請使用手機開啟網站，並將網頁加入主畫面後，再開啟通知功能。',
     todayEventsKicker: 'TODAY',
-    todayEventsTitle: '今天有什麼事件？',
+    todayEventsTitle: '今天有什麼活動？',
+    upcomingLabel: '即將到來',
+    tomorrowLabel: '明天',
+    nothingToday: '今天沒有活動',
+    koreaAlreadyThatDay: '韓國已經是這一天了',
     todayEventsClose: '直接關閉',
     todayEventsDismissToday: '今日不再查看',
     errorTitle: '發生錯誤',
     allDay: '整天',
+    allDayKorea: '整天（韓國時間）',
     followEson: 'follow ESON',
     uncategorized: '未分類',
     openLink: '開啟連結',
@@ -71,6 +78,8 @@ const i18n = {
     listEmpty: '이 달에는 일정이 없습니다.',
     weekdays: ['일', '월', '화', '수', '목', '금', '토'],
     monthFormat: (date) => `${date.getFullYear()}년 ${date.getMonth() + 1}월`,
+    monthParts: (date) => ({ month: `${date.getMonth() + 1}월`, year: `${date.getFullYear()}` }),
+    seoulTime: '한국 시간 KST',
     installHint: '현재 브라우저에서 설치 안내를 제공하지 않습니다. 브라우저 메뉴에서 홈 화면에 추가해 주세요.',
     enableNotifications: '알림 받기',
     notificationEnabled: '알림 설정이 완료되었습니다.',
@@ -91,10 +100,15 @@ const i18n = {
     desktopNotificationMessage: '알림 기능은 주로 휴대폰 푸시 알림을 위한 기능입니다.\n\n휴대폰에서 사이트를 열고 홈 화면에 추가한 뒤 알림을 설정해 주세요.',
     todayEventsKicker: 'TODAY',
     todayEventsTitle: '오늘은 어떤 일정이 있나요?',
+    upcomingLabel: '다가오는 일정',
+    tomorrowLabel: '내일',
+    nothingToday: '오늘은 일정이 없어요',
+    koreaAlreadyThatDay: '한국은 이미 이날이에요',
     todayEventsClose: '닫기',
     todayEventsDismissToday: '오늘 다시 보지 않기',
     errorTitle: '오류가 발생했습니다',
     allDay: '종일',
+    allDayKorea: '종일 (한국 시간)',
     followEson: 'follow ESON',
     uncategorized: '미분류',
     openLink: '링크 열기',
@@ -117,6 +131,8 @@ const i18n = {
     listEmpty: 'No events for this month.',
     weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     monthFormat: (date) => date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+    monthParts: (date) => ({ month: date.toLocaleDateString('en-US', { month: 'long' }), year: `${date.getFullYear()}` }),
+    seoulTime: 'Korea time (KST)',
     installHint: 'Your browser is not showing an install prompt yet. Use the browser menu to add this page to your home screen.',
     enableNotifications: 'Receive notifications',
     notificationEnabled: 'Notification settings saved.',
@@ -137,10 +153,15 @@ const i18n = {
     desktopNotificationMessage: 'Notifications are mainly designed for mobile push alerts.\n\nPlease open this site on your phone, add it to your Home Screen, then enable notifications.',
     todayEventsKicker: 'TODAY',
     todayEventsTitle: 'What’s happening today?',
+    upcomingLabel: 'Coming up',
+    tomorrowLabel: 'Tomorrow',
+    nothingToday: 'Nothing scheduled today',
+    koreaAlreadyThatDay: 'It’s already this day in Korea',
     todayEventsClose: 'Close',
     todayEventsDismissToday: 'Don’t show again today',
     errorTitle: 'Something went wrong',
     allDay: 'All day',
+    allDayKorea: 'All day (Korea time)',
     followEson: 'follow ESON',
     uncategorized: 'Uncategorized',
     openLink: 'Open Link',
@@ -163,6 +184,8 @@ const i18n = {
     listEmpty: 'この月には予定がありません。',
     weekdays: ['日', '月', '火', '水', '木', '金', '土'],
     monthFormat: (date) => `${date.getFullYear()}年 ${date.getMonth() + 1}月`,
+    monthParts: (date) => ({ month: `${date.getMonth() + 1}月`, year: `${date.getFullYear()}` }),
+    seoulTime: '韓国時間 KST',
     installHint: '現在ブラウザのインストール案内が表示されていません。ブラウザメニューからホーム画面に追加してください。',
     enableNotifications: '通知を受け取る',
     notificationEnabled: '通知設定が完了しました。',
@@ -183,10 +206,15 @@ const i18n = {
     desktopNotificationMessage: '通知機能は主にスマートフォンのプッシュ通知用です。\n\nスマートフォンでこのサイトを開き、ホーム画面に追加してから通知を設定してください。',
     todayEventsKicker: 'TODAY',
     todayEventsTitle: '今日の予定は？',
+    upcomingLabel: 'まもなく',
+    tomorrowLabel: '明日',
+    nothingToday: '今日の予定はありません',
+    koreaAlreadyThatDay: '韓国ではもうこの日です',
     todayEventsClose: '閉じる',
     todayEventsDismissToday: '今日はもう表示しない',
     errorTitle: 'エラーが発生しました',
     allDay: '終日',
+    allDayKorea: '終日（韓国時間）',
     followEson: 'follow ESON',
     uncategorized: '未分類',
     openLink: 'リンクを開く',
@@ -197,40 +225,72 @@ const i18n = {
 };
 
 
-function detectInitialLanguage() {
-  const timeZone = getUserTimeZone();
-  const timezoneLanguageMap = {
-    'Asia/Taipei': 'zh',
-    'Asia/Shanghai': 'zh',
-    'Asia/Chongqing': 'zh',
-    'Asia/Harbin': 'zh',
-    'Asia/Urumqi': 'zh',
-    'Asia/Seoul': 'ko',
-    'Asia/Tokyo': 'ja'
-  };
+const LANGUAGE_KEY = 'esonUnisonLanguage';
+const SUPPORTED_LANGUAGES = ['zh', 'ko', 'ja', 'en'];
 
-  if (timezoneLanguageMap[timeZone]) return timezoneLanguageMap[timeZone];
+// Default language, in order:
+//   1. a language the user picked with the buttons (remembered)
+//   2. the browser / phone language list, in the user's preference order —
+//      the first one the site supports wins (zh / ko / ja / en)
+//   3. only if none of those are supported: time zone
+//      (Taiwan / China -> zh, Korea -> ko, Japan -> ja)
+//   4. English
+function detectInitialLanguage() {
+  try {
+    const saved = localStorage.getItem(LANGUAGE_KEY);
+    if (SUPPORTED_LANGUAGES.includes(saved)) return saved;
+  } catch (error) { /* storage unavailable */ }
 
   const languages = navigator.languages && navigator.languages.length
     ? navigator.languages
     : [navigator.language || ''];
 
-  const normalized = languages.map(lang => String(lang).toLowerCase());
-  if (normalized.some(lang => lang === 'zh-tw' || lang === 'zh-hant' || lang === 'zh-cn' || lang === 'zh-hans' || lang.startsWith('zh-'))) return 'zh';
-  if (normalized.some(lang => lang === 'ko' || lang.startsWith('ko-'))) return 'ko';
-  if (normalized.some(lang => lang === 'ja' || lang.startsWith('ja-'))) return 'ja';
-  return 'en';
+  // Walk the list in order. The old code asked "is Chinese anywhere in the
+  // list?" first, so e.g. ['ko-KR', 'en-US', 'zh-TW'] showed Chinese.
+  for (const raw of languages) {
+    const primary = String(raw).toLowerCase().split('-')[0];
+    if (SUPPORTED_LANGUAGES.includes(primary)) return primary;
+  }
+
+  const timezoneLanguageMap = {
+    'Asia/Taipei': 'zh',
+    'Asia/Shanghai': 'zh',
+    'Asia/Chongqing': 'zh',
+    'Asia/Chungking': 'zh',
+    'Asia/Harbin': 'zh',
+    'Asia/Urumqi': 'zh',
+    'Asia/Kashgar': 'zh',
+    'PRC': 'zh',
+    'ROC': 'zh',
+    'Asia/Seoul': 'ko',
+    'ROK': 'ko',
+    'Asia/Tokyo': 'ja',
+    'Japan': 'ja'
+  };
+
+  return timezoneLanguageMap[getUserTimeZone()] || 'en';
 }
 
 let currentLang = detectInitialLanguage();
 let viewDate = new Date();
-const today = new Date();
+// `today` is refreshed when the app comes back to the foreground (a PWA can stay
+// open across midnight), so it must not be a constant.
+let today = new Date();
 let calendarEvents = [];
 let googleColors = null;
 let isLoading = false;
 let loadError = '';
 let lastLoadedRange = '';
+let lastLoadedAt = 0;
+let loadRequestId = 0;
 let currentViewMode = 'calendar';
+const STALE_AFTER_MS = 15 * 60 * 1000;
+const BASE_TIME_ZONE = 'Asia/Seoul';
+
+const ICONS = {
+  chevronRight: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>',
+  openInNew: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M19 5l-8 8M18 14v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h4"/></svg>'
+};
 
 const calendarGrid = document.getElementById('calendarGrid');
 const weekdayGrid = document.getElementById('weekdayGrid');
@@ -314,9 +374,10 @@ function stripHtml(value = '') {
     .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<\/(p|div|li)>/gi, '\n')
     .replace(/<(p|div|li)[^>]*>/gi, '');
-  const div = document.createElement('div');
-  div.innerHTML = normalized;
-  return (div.textContent || div.innerText || '')
+  // DOMParser creates an inert document: unlike div.innerHTML it never loads
+  // images or runs inline handlers (e.g. <img onerror>) found in descriptions.
+  const doc = new DOMParser().parseFromString(normalized, 'text/html');
+  return (doc.body?.textContent || '')
     .replace(/\u00a0/g, ' ')
     .replace(/\r\n?/g, '\n');
 }
@@ -347,7 +408,7 @@ function renderDescriptionHtml(description = '') {
   const linkHtml = uniqueLinks.length
     ? `<div class="modal-link-list">${uniqueLinks.map((link, index) => `
         <a class="modal-link-btn" href="${escapeHtml(link.href)}" target="_blank" rel="noopener noreferrer">
-          <span class="material-symbols-rounded" aria-hidden="true">open_in_new</span>
+          ${ICONS.openInNew}
           ${escapeHtml(i18n[currentLang].openLink)}${uniqueLinks.length > 1 ? ` ${index + 1}` : ''}
         </a>
       `).join('')}</div>`
@@ -390,6 +451,7 @@ function cleanDescription(description = '') {
     .map(line => line.trim())
     .filter(line => !/^CATEGORY\s*:/i.test(line))
     .filter(line => !/^PUSH\s*:/i.test(line))
+    .filter(line => !/^PUSH_TZ\s*:/i.test(line))
     .join('\n')
     .replace(/[ \t]+\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
@@ -405,6 +467,10 @@ function normalizeGoogleEvent(item) {
   const endDate = endRaw ? (isAllDay ? new Date(`${endRaw}T00:00:00`) : new Date(endRaw)) : null;
   const category = extractCategory(item.description || '');
   const cleanDesc = cleanDescription(item.description || '');
+  // "PUSH_TZ: KST" on an all-day event: it still shows as all-day on its date,
+  // but the push follows Korea's date (see the push worker).
+  const followsKoreaDate = isAllDay && getDescriptionLines(item.description || '')
+    .some(line => /^PUSH_TZ\s*:\s*(kst|korea|seoul|asia\/seoul)\s*$/i.test(line));
 
   return {
     id: item.id,
@@ -415,6 +481,9 @@ function normalizeGoogleEvent(item) {
     start: startDate,
     end: endDate,
     isAllDay,
+    followsKoreaDate,
+    allDayStartKey: isAllDay ? startRaw : '',
+    allDayEndKey: isAllDay ? (endRaw || '') : '',
     htmlLink: item.htmlLink || '',
     reminders: item.reminders || {}
   };
@@ -443,7 +512,8 @@ function getEventColor(event) {
 
 function eventStyle(event) {
   const color = getEventColor(event);
-  return `background:${color.background};border-left-color:${color.border};`;
+  // Categories are told apart by background tint only (no side bar).
+  return `background:${color.background};`;
 }
 
 function eventOccursOnDate(event, key) {
@@ -454,27 +524,69 @@ function eventOccursOnDate(event, key) {
     const target = new Date(`${key}T00:00:00`);
     return target >= start && target <= end;
   }
-  return dateKey(event.start) === key;
+  // Timed events that cross midnight (e.g. 22:00–02:00) appear on every day they touch.
+  const dayStart = new Date(`${key}T00:00:00`);
+  const dayEnd = new Date(dayStart);
+  dayEnd.setDate(dayEnd.getDate() + 1);
+  const end = event.end && event.end > event.start ? event.end : new Date(event.start.getTime() + 1);
+  return event.start < dayEnd && end > dayStart;
+}
+
+const TIME_OPTIONS = { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' };
+
+function formatStartTime(event) {
+  return event.start.toLocaleTimeString(getLocale(), TIME_OPTIONS);
 }
 
 function formatEventTime(event) {
-  if (event.isAllDay) return i18n[currentLang].allDay;
+  if (event.isAllDay) {
+    return event.followsKoreaDate && getUserTimeZone() !== BASE_TIME_ZONE
+      ? i18n[currentLang].allDayKorea
+      : i18n[currentLang].allDay;
+  }
   const locale = getLocale();
-  const options = { hour: '2-digit', minute: '2-digit', hour12: false };
+  // hourCycle 'h23' instead of hour12:false — the latter renders midnight as "24:00" in en-US.
+  const options = TIME_OPTIONS;
   if (event.end && dateKey(event.start) === dateKey(event.end)) {
     return `${event.start.toLocaleTimeString(locale, options)}–${event.end.toLocaleTimeString(locale, options)}`;
   }
   return event.start.toLocaleTimeString(locale, options);
 }
 
+function getKoreaDateKey(date = new Date()) {
+  // sv-SE formats as YYYY-MM-DD
+  return date.toLocaleDateString('sv-SE', { timeZone: BASE_TIME_ZONE });
+}
+
+function sortDayEvents(a, b) {
+  if (a.isAllDay !== b.isAllDay) return a.isAllDay ? -1 : 1;
+  return a.start - b.start;
+}
+
+// Events on the viewer's own local date. (Korea-time all-day events stay on
+// their own date here, matching the calendar grid.)
 function getTodayEvents() {
   const key = dateKey(new Date());
+  return calendarEvents.filter(event => eventOccursOnDate(event, key)).sort(sortDayEvents);
+}
+
+// Tomorrow's events, minus anything already listed today (multi-day events).
+function getUpcomingEvents() {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const key = dateKey(tomorrow);
+  const todayIds = new Set(getTodayEvents().map(event => event.id));
   return calendarEvents
-    .filter(event => eventOccursOnDate(event, key))
-    .sort((a, b) => {
-      if (a.isAllDay !== b.isAllDay) return a.isAllDay ? -1 : 1;
-      return a.start - b.start;
-    });
+    .filter(event => !todayIds.has(event.id) && eventOccursOnDate(event, key))
+    .sort(sortDayEvents);
+}
+
+// A Korea-time all-day event whose date has already begun in Korea, e.g. a
+// birthday on the 30th seen at 23:00 on the 29th in Taiwan (push already sent).
+function isAlreadyThatDayInKorea(event) {
+  if (!event.followsKoreaDate) return false;
+  const koreaKey = getKoreaDateKey();
+  return koreaKey >= event.allDayStartKey && (!event.allDayEndKey || koreaKey < event.allDayEndKey);
 }
 
 function isTodayEventsHidden() {
@@ -501,6 +613,8 @@ function renderTodayEventsModal() {
   const events = getTodayEvents();
   const locale = getLocale();
 
+  const badge = document.getElementById('todayEventsBadge');
+  if (badge) badge.textContent = String(now.getDate());
   todayEventsDate.textContent = now.toLocaleDateString(locale, {
     year: 'numeric',
     month: 'long',
@@ -508,22 +622,35 @@ function renderTodayEventsModal() {
     weekday: 'long'
   });
 
-  todayEventsList.innerHTML = events.map(event => {
-    const tagLabel = event.category
-      ? (i18n[currentLang].tags[event.category] || event.category)
-      : i18n[currentLang].uncategorized;
+  const upcoming = getUpcomingEvents();
+  const t = i18n[currentLang];
+
+  const card = (event, isUpcoming) => {
+    const tagLabel = event.category ? (t.tags[event.category] || event.category) : t.uncategorized;
+    const timeText = isUpcoming ? `${t.tomorrowLabel}　${formatEventTime(event)}` : formatEventTime(event);
+    const note = isUpcoming && isAlreadyThatDayInKorea(event)
+      ? `<span class="today-event-note">${escapeHtml(t.koreaAlreadyThatDay)}</span>`
+      : '';
     return `
-      <button class="today-event-card" data-event-id="${escapeHtml(event.id)}" type="button">
-        <span class="today-event-accent" style="${eventStyle(event)}"></span>
+      <button class="today-event-card" style="${eventStyle(event)}" data-event-id="${escapeHtml(event.id)}" type="button">
         <span class="today-event-content">
-          <span class="today-event-time">${escapeHtml(formatEventTime(event))}</span>
+          <span class="today-event-time">${escapeHtml(timeText)}</span>
           <strong class="today-event-title">${escapeHtml(event.title)}</strong>
           <span class="today-event-tag">${escapeHtml(tagLabel)}</span>
+          ${note}
         </span>
-        <span class="material-symbols-rounded today-event-arrow" aria-hidden="true">chevron_right</span>
+        <span class="today-event-arrow">${ICONS.chevronRight}</span>
       </button>
     `;
-  }).join('');
+  };
+
+  const todayHtml = events.length
+    ? events.map(event => card(event, false)).join('')
+    : `<p class="today-events-empty">${escapeHtml(t.nothingToday)}</p>`;
+  const upcomingHtml = upcoming.length
+    ? `<h4 class="today-events-section">${escapeHtml(t.upcomingLabel)}</h4>${upcoming.map(event => card(event, true)).join('')}`
+    : '';
+  todayEventsList.innerHTML = todayHtml + upcomingHtml;
 
   todayEventsList.querySelectorAll('.today-event-card').forEach(button => {
     button.addEventListener('click', () => {
@@ -546,10 +673,15 @@ function cleanTodayOpenParameter() {
 function maybeShowTodayEvents() {
   const requestedFromNotification = new URLSearchParams(window.location.search).get('open') === 'today';
   if (requestedFromNotification) cleanTodayOpenParameter();
-  if (loadError || isTodayEventsHidden()) return;
+  // Tapping a notification always shows today's events, even if the user chose
+  // "don't show again today" earlier.
+  if (loadError || (!requestedFromNotification && isTodayEventsHidden())) return;
 
-  const events = getTodayEvents();
-  if (!events.length || !todayEventsModal || todayEventsModal.open) return;
+  const hasToday = getTodayEvents().length > 0;
+  // From a notification, also open when only tomorrow has something (e.g. a
+  // Korea-time birthday pushed at 23:00 local time the day before).
+  const hasUpcoming = requestedFromNotification && getUpcomingEvents().length > 0;
+  if ((!hasToday && !hasUpcoming) || !todayEventsModal || todayEventsModal.open) return;
 
   renderTodayEventsModal();
   if (appModal?.open) appModal.close();
@@ -569,6 +701,7 @@ function applyLanguage() {
   renderMeta();
   updateViewModeUi();
   if (todayEventsModal?.open) renderTodayEventsModal();
+  updateStoredTokenLanguage();
 }
 
 function renderMeta() {
@@ -579,7 +712,7 @@ function renderMeta() {
 
 function renderWeekdays() {
   weekdayGrid.innerHTML = i18n[currentLang].weekdays
-    .map(day => `<div class="weekday">${day}</div>`)
+    .map((day, i) => `<div class="weekday${i === 0 ? ' sun' : i === 6 ? ' sat' : ''}">${day}</div>`)
     .join('');
 }
 
@@ -646,7 +779,9 @@ function renderEventListView() {
 function renderCalendar() {
   const year = viewDate.getFullYear();
   const month = viewDate.getMonth();
-  monthTitle.textContent = i18n[currentLang].monthFormat(viewDate);
+  const parts = i18n[currentLang].monthParts(viewDate);
+  monthTitle.innerHTML = `<span class="month-name">${escapeHtml(parts.month)}</span><span class="month-year">${escapeHtml(parts.year)}</span>`;
+  monthTitle.setAttribute('aria-label', i18n[currentLang].monthFormat(viewDate));
 
   const start = startOfCalendarGrid(viewDate);
   const cells = [];
@@ -658,17 +793,20 @@ function renderCalendar() {
 
   calendarGrid.innerHTML = cells.map((cellDate) => {
     const key = dateKey(cellDate);
-    const events = calendarEvents.filter(event => eventOccursOnDate(event, key));
+    const events = calendarEvents
+      .filter(event => eventOccursOnDate(event, key))
+      .sort((a, b) => (a.isAllDay === b.isAllDay ? a.start - b.start : a.isAllDay ? -1 : 1));
     const isMuted = cellDate.getMonth() !== month;
     const isToday = sameDay(cellDate, today);
+    const weekday = cellDate.getDay();
     const eventHtml = events.map(event => `
-      <button class="event-pill" style="${eventStyle(event)}" data-event-id="${escapeHtml(event.id)}">
-        ${escapeHtml(event.title)}
+      <button class="event-pill" style="${eventStyle(event)}" data-event-id="${escapeHtml(event.id)}" type="button">
+        ${event.isAllDay || dateKey(event.start) !== key ? '' : `<span class="pill-time">${escapeHtml(formatStartTime(event))}</span>`}<span class="pill-title">${escapeHtml(event.title)}</span>
       </button>
     `).join('');
 
     return `
-      <article class="day-cell ${isMuted ? 'muted' : ''} ${isToday ? 'today' : ''}" data-date="${key}">
+      <article class="day-cell ${isMuted ? 'muted' : ''} ${isToday ? 'today' : ''} ${weekday === 0 ? 'sun' : ''} ${weekday === 6 ? 'sat' : ''}" data-date="${key}">
         <div class="day-number">${cellDate.getDate()}</div>
         <div class="event-list">${eventHtml}</div>
       </article>
@@ -694,7 +832,8 @@ function renderCalendarStatus() {
 
   let message = '';
   let type = '';
-  const monthEvents = calendarEvents.filter(event => event.start.getMonth() === viewDate.getMonth() && event.start.getFullYear() === viewDate.getFullYear());
+  // Includes multi-day events that started in the previous month.
+  const monthEvents = getVisibleMonthEvents();
   if (isLoading) {
     message = i18n[currentLang].loadingEvents;
     type = 'loading';
@@ -717,7 +856,16 @@ function openEvent(eventData) {
   const locale = getLocale();
   document.getElementById('modalDate').textContent = eventData.start.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
   document.getElementById('modalTitle').textContent = eventData.title;
-  document.getElementById('modalTime').textContent = formatEventTime(eventData);
+  const modalTime = document.getElementById('modalTime');
+  modalTime.textContent = formatEventTime(eventData);
+  // Schedules are announced in KST; show the Seoul time too when the viewer is elsewhere.
+  if (!eventData.isAllDay && getUserTimeZone() !== BASE_TIME_ZONE) {
+    const seoul = eventData.start.toLocaleString(locale, { timeZone: BASE_TIME_ZONE, month: 'numeric', day: 'numeric', ...TIME_OPTIONS });
+    const note = document.createElement('span');
+    note.className = 'modal-time-base';
+    note.textContent = `${i18n[currentLang].seoulTime} ${seoul}`;
+    modalTime.appendChild(note);
+  }
   document.getElementById('modalDesc').innerHTML = renderDescriptionHtml(eventData.description);
   const tagLabel = eventData.category ? (i18n[currentLang].tags[eventData.category] || eventData.category) : i18n[currentLang].uncategorized;
   document.getElementById('modalTags').innerHTML = `<span>${escapeHtml(tagLabel)}</span>`;
@@ -734,15 +882,19 @@ async function loadGoogleColors() {
   return googleColors;
 }
 
-async function loadEvents(force = false) {
+async function loadEvents(force = false, { showToday = false } = {}) {
   const start = startOfCalendarGrid(viewDate);
   const end = endOfCalendarGrid(viewDate);
   const rangeKey = `${start.toISOString()}_${end.toISOString()}`;
   if (!force && rangeKey === lastLoadedRange && calendarEvents.length) return;
 
+  // Rapid month switching can resolve requests out of order; only the newest
+  // request is allowed to write its result.
+  const requestId = ++loadRequestId;
   isLoading = true;
   loadError = '';
   renderCalendar();
+  refreshBtnEl?.classList.add('is-spinning');
 
   try {
     await loadGoogleColors();
@@ -762,18 +914,39 @@ async function loadEvents(force = false) {
     }
 
     const data = await response.json();
+    if (requestId !== loadRequestId) return;
     calendarEvents = (data.items || []).map(normalizeGoogleEvent);
     lastLoadedRange = rangeKey;
+    lastLoadedAt = Date.now();
   } catch (error) {
+    if (requestId !== loadRequestId) return;
     console.error(error);
     calendarEvents = [];
+    lastLoadedRange = '';
     loadError = error.message;
   } finally {
-    isLoading = false;
-    renderCalendar();
-    maybeShowTodayEvents();
+    if (requestId === loadRequestId) {
+      isLoading = false;
+      refreshBtnEl?.classList.remove('is-spinning');
+      renderCalendar();
+      // Only pop the "today" sheet on app open / notification tap / a new day —
+      // not on every month switch or manual refresh.
+      if (showToday) maybeShowTodayEvents();
+    }
   }
 }
+
+function syncToday() {
+  const now = new Date();
+  if (sameDay(now, today)) return false;
+  const wasViewingToday = viewDate.getFullYear() === today.getFullYear() && viewDate.getMonth() === today.getMonth();
+  today = now;
+  if (wasViewingToday) viewDate = new Date(now.getFullYear(), now.getMonth(), 1);
+  renderMeta();
+  return true;
+}
+
+const refreshBtnEl = document.getElementById('refreshBtn');
 
 document.getElementById('prevMonth').addEventListener('click', async () => {
   viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1);
@@ -786,6 +959,7 @@ document.getElementById('nextMonth').addEventListener('click', async () => {
 });
 
 document.getElementById('todayBtn').addEventListener('click', async () => {
+  syncToday();
   viewDate = new Date(today.getFullYear(), today.getMonth(), 1);
   await loadEvents();
 });
@@ -803,24 +977,26 @@ document.getElementById('todayEventsCloseButton')?.addEventListener('click', () 
 document.getElementById('todayEventsDismissToday')?.addEventListener('click', hideTodayEventsForToday);
 
 document.addEventListener('visibilitychange', () => {
-  if (
-    !document.hidden &&
-    !isLoading &&
-    !modal?.open &&
-    !appModal?.open
-  ) {
-    maybeShowTodayEvents();
+  if (document.hidden || isLoading) return;
+  // An installed PWA is often resumed hours or days later: roll "today" forward
+  // and refetch instead of showing yesterday's data.
+  const dayChanged = syncToday();
+  const stale = Date.now() - lastLoadedAt > STALE_AFTER_MS;
+  if (dayChanged || stale) {
+    loadEvents(true, { showToday: dayChanged && !modal?.open && !appModal?.open });
   }
 });
 
 document.querySelectorAll('.lang-btn').forEach(button => {
   button.addEventListener('click', () => {
     currentLang = button.dataset.lang;
+    try { localStorage.setItem(LANGUAGE_KEY, currentLang); } catch (error) { /* ignore */ }
     applyLanguage();
   });
 });
 
-document.getElementById('refreshBtn').addEventListener('click', async () => {
+refreshBtnEl.addEventListener('click', async () => {
+  syncToday();
   await loadEvents(true);
   if (!loadError) showAppModal(i18n[currentLang].syncSuccessTitle, i18n[currentLang].syncSuccessMessage);
 });
@@ -838,7 +1014,7 @@ async function registerServiceWorker() {
     return null;
   }
   try {
-    swRegistration = await navigator.serviceWorker.register('./firebase-messaging-sw.js?v=29', { scope: './' });
+    swRegistration = await navigator.serviceWorker.register('./firebase-messaging-sw.js?v=34.2', { scope: './' });
     console.log('Service Worker registered:', swRegistration.scope);
     return swRegistration;
   } catch (error) {
@@ -889,23 +1065,23 @@ async function initFirebaseMessaging() {
     initFirestore();
     messaging = firebase.messaging();
 
-    messaging.onMessage((payload) => {
+    messaging.onMessage(async (payload) => {
       const title = payload.notification?.title || 'ESON × UNISON Calendar';
       const body = payload.notification?.body || '';
-      if (Notification.permission === 'granted') {
-        const notification = new Notification(title, {
+      if (Notification.permission !== 'granted') return;
+      // `new Notification()` throws "Illegal constructor" on Android Chrome and is
+      // unavailable in iOS web apps, so foreground messages used to be lost.
+      // Show it through the service worker; its notificationclick handler opens today.
+      try {
+        const registration = swRegistration || await navigator.serviceWorker.ready;
+        await registration.showNotification(title, {
           body,
           icon: './icons/icon-192.png',
           badge: './icons/icon-192.png',
           data: payload.data || {}
         });
-        notification.onclick = () => {
-          notification.close();
-          const url = new URL(window.location.href);
-          url.searchParams.set('open', 'today');
-          window.location.href = url.toString();
-          window.focus();
-        };
+      } catch (error) {
+        console.error('Foreground notification failed:', error);
       }
     });
 
@@ -956,23 +1132,70 @@ async function saveFcmToken(token) {
   const ref = db.collection(TOKEN_COLLECTION).doc(tokenHash);
   const now = firebase.firestore.FieldValue.serverTimestamp();
 
-  await ref.set({
+  // Field list must match firestore.rules (hasAll / hasOnly).
+  const fields = {
     token,
     tokenHash,
     project: 'ESON × UNISON Calendar',
     platform: getDevicePlatform(),
-    userAgent: navigator.userAgent || '',
+    userAgent: (navigator.userAgent || '').slice(0, 1024),
     language: currentLang,
-    browserLanguage: navigator.language || '',
+    browserLanguage: (navigator.language || '').slice(0, 100),
     timezone: getUserTimeZone(),
-    pageUrl: location.href,
+    pageUrl: location.href.slice(0, 2048),
     permission: Notification.permission,
     enabled: true,
-    createdAt: now,
     updatedAt: now
-  });
+  };
+
+  // Clients can't read token docs (rules deny reads), so: try to update an
+  // existing doc and keep its createdAt; if that fails (doc doesn't exist, or
+  // the deployed rules require createdAt == request.time on every write),
+  // write the whole doc with a fresh createdAt.
+  try {
+    await ref.update(fields);
+  } catch (error) {
+    await ref.set({ ...fields, createdAt: now });
+  }
 
   return tokenHash;
+}
+
+const FCM_TOKEN_KEY = 'esonUnisonFcmToken';
+function readStoredToken() { try { return localStorage.getItem(FCM_TOKEN_KEY) || ''; } catch (e) { return ''; } }
+function writeStoredToken(token) { try { localStorage.setItem(FCM_TOKEN_KEY, token); } catch (e) { /* ignore */ } }
+
+// FCM tokens rotate. Previously the token was only saved when the button was
+// tapped, so after a rotation the backend kept sending to a dead token.
+// Re-check silently on every launch once permission has been granted.
+async function syncTokenIfGranted() {
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  if (!isMobileDevice() || !isInstalledWebApp() || !messaging || !swRegistration) return;
+  try {
+    const token = await messaging.getToken({ vapidKey: FIREBASE_VAPID_KEY, serviceWorkerRegistration: swRegistration });
+    if (!token) return;
+    await saveFcmToken(token);
+    writeStoredToken(token);
+  } catch (error) {
+    console.warn('Token refresh failed:', error);
+  }
+}
+
+let languageSyncTimer = null;
+// Push messages are sent in the language saved with the token, so re-save the
+// token doc when the user switches language.
+function updateStoredTokenLanguage() {
+  const token = readStoredToken();
+  if (!token || !window.firebase) return;
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  clearTimeout(languageSyncTimer);
+  languageSyncTimer = setTimeout(async () => {
+    try {
+      await saveFcmToken(token);
+    } catch (error) {
+      console.warn('Unable to update notification language:', error);
+    }
+  }, 800);
 }
 
 async function enableNotifications() {
@@ -1027,7 +1250,7 @@ async function enableNotifications() {
     });
     if (!token) throw new Error('No FCM token returned');
     await saveFcmToken(token);
-    localStorage.setItem('esonUnisonFcmToken', token);
+    writeStoredToken(token);
     console.log('FCM token saved:', token);
     showAppModal(i18n[currentLang].notificationSuccessTitle, i18n[currentLang].notificationSuccessMessage);
   } catch (error) {
@@ -1039,5 +1262,5 @@ async function enableNotifications() {
 document.getElementById('notifyBtn').addEventListener('click', enableNotifications);
 
 applyLanguage();
-registerServiceWorker().then(initFirebaseMessaging);
-loadEvents(true);
+registerServiceWorker().then(initFirebaseMessaging).then(syncTokenIfGranted);
+loadEvents(true, { showToday: true });
