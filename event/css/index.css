@@ -616,3 +616,6 @@ input.is-error{border-color:#f04438!important;box-shadow:0 0 0 4px rgba(240,68,5
 .dtp-time{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0}
 .dtp-time select{width:76px;min-height:38px}
 .dtp-foot{display:flex;justify-content:space-between;gap:8px}
+
+/* Keep the line breaks admins type in text blocks, descriptions, notes and submitted answers */
+.paragraph-block,.event-desc,.block-desc,.public-field .help,.summary-line span,.data-pair span,.form-textarea{white-space:pre-line;overflow-wrap:anywhere}
